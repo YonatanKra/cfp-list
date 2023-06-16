@@ -28,7 +28,6 @@ export default function EditCfp({ createNew }: { createNew: boolean }) {
       else await cfpRepo.save(cfp!)
       navigate('/')
     } catch (error: any) {
-      alert(error.message)
       setErrors(error)
     }
   }
@@ -63,6 +62,7 @@ export default function EditCfp({ createNew }: { createNew: boolean }) {
               <div key={key}>
                   {key == 'notes' ? (
                     <vwc-text-area
+                      error-text={error}
                       label="Notes"
                       value={value}
                       onBlur={(e) => setValue(e.target.value)}
@@ -70,12 +70,14 @@ export default function EditCfp({ createNew }: { createNew: boolean }) {
                   ) : (
                     <>
                     {meta.inputType === 'number' ? (
-                      <vwc-number-field label={meta.caption} 
+                      <vwc-number-field error-text={error}
+                                        label={meta.caption} 
                                         value={value} 
                                         onBlur={(e) => setValue(e.target.value)}>
                       </vwc-number-field>
                     ) : (
-                      <vwc-text-field type={meta.inputType}
+                      <vwc-text-field error-text={error}
+                                      type={meta.inputType}
                                       label={meta.caption} 
                                       value={value} 
                                       onBlur={(e) => setValue(e.target.value)}>
@@ -83,7 +85,6 @@ export default function EditCfp({ createNew }: { createNew: boolean }) {
                     )}
                     </>
                   )}
-                {error ?? <div>{error}</div>}
               </div>
             )
           })}
